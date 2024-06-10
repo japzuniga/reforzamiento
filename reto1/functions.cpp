@@ -4,21 +4,23 @@
 using namespace std;
 
 //entradas:
-int checkYear();
-string checkISBN();
-string title_author(int option);
-bool checkAvailable();
+int inputYear();
+string inputISBN();
+string inputTitle_Author(int option);
+bool inputAvailability();
 
-//CRUD: create, read, update, delete
+//CRUD: create, read, (find), update, delete
 void addBooks(int amount);
 void showBooks();
 void show_last_x_years(int x);
+int findBook();
 void updateBook();
 void deleteBook();
 
-int checkYear() {
+int inputYear() {
     int year;
-    while (true) {    
+    while (true) {
+        cin >> ws;
         cout << "Enter year of publication: ";
         cin >> year;
         if ((year > currentYear) || (year < minimumYear)) {
@@ -32,9 +34,10 @@ int checkYear() {
     return year;
 }
 
-string checkISBN() {
+string inputISBN() {
     string ISBN;
-    while (true) {    
+    while (true) {
+        cin >> ws;
         cout << "Enter ISBN: ";
         cin >> ISBN;
         if ((ISBN.length() > 13) || (ISBN.length() < 10)) {
@@ -48,13 +51,13 @@ string checkISBN() {
     return ISBN;
 }
 
-string title_author(int option) {
+string inputTitle_Author(int option) {
     string input;
 
     while (true) {
-        if (option == 1) {
+        if (option == 0) {
             cout << "Enter title: ";
-        } else if (option == 2) {
+        } else if (option == 1) {
             cout << "Enter author: ";
         }
 
@@ -69,14 +72,14 @@ string title_author(int option) {
     }
 
     return input;
-
 }
 
-bool checkAvailable() {
+bool inputAvailability() {
     string input;
     bool available;
 
     while (true) {
+        cin >> ws;
         cout << "Is the book available? (y/n) ";
         cin >> input;
         
@@ -105,11 +108,11 @@ void addBooks(int amount) {
         cout << "************************";
 
         cout << "\n";
-        catalogue[position].year = checkYear();
-        catalogue[position].ISBN = checkISBN();
-        catalogue[position].title = title_author(1);
-        catalogue[position].author = title_author(2);
-        catalogue[position].available = checkAvailable();
+        catalogue[position].year = inputYear();
+        catalogue[position].ISBN = inputISBN();
+        catalogue[position].title = inputTitle_Author(0);
+        catalogue[position].author = inputTitle_Author(1);
+        catalogue[position].available = inputAvailability();
 
         position++;
     }
@@ -166,28 +169,34 @@ void show_last_x_years(int x) {
     cout << "\n";
 }
 
-void updateBook() {;
-    string tempISBN, available;
-    int book_pos, info;
-    bool found = false;
+int findBook() {
+    string tempISBN;
+    int book_pos = -1;
 
     cout << "\nWhich book's information do you wish to update?\n";
-    tempISBN = checkISBN();
+    tempISBN = inputISBN();
 
     for (int i = 0; i < position; i++) {
         if (tempISBN == catalogue[i].ISBN) {
             book_pos = i;
-            found = true;
             break;
         }
     }
 
-    if (found == false) {
+    return book_pos;
+}
+
+void updateBook() {;
+    int info, book_pos = -1;
+
+    book_pos = findBook();
+
+    if (book_pos == -1) {
         cout << "\nBook not found...\n";
         return;
     }
 
-    else if (found == true) {    
+    else {    
         cout << "\nWhich information do you wish to update?\n";
         cout << "1. Year\n2. ISBN\n3. Title\n4. Author\n5. Availability\nEnter: ";
         cin >> info;
@@ -195,19 +204,19 @@ void updateBook() {;
         cout << "\n";
         switch (info) {
             case 1:
-                catalogue[book_pos].year = checkYear();
+                catalogue[book_pos].year = inputYear();
                 break;
             case 2:
-                catalogue[book_pos].ISBN = checkISBN();
+                catalogue[book_pos].ISBN = inputISBN();
                 break;
             case 3:
-                catalogue[book_pos].title = title_author(1);
+                catalogue[book_pos].title = inputTitle_Author(0);
                 break;
             case 4:
-                catalogue[book_pos].author = title_author(2);
+                catalogue[book_pos].author = inputTitle_Author(1);
                 break;
             case 5:
-                catalogue[book_pos].available = checkAvailable();
+                catalogue[book_pos].available = inputAvailability();
                 break;
             default:
                 cout << "\nInvalid option...";
@@ -221,18 +230,9 @@ void updateBook() {;
 }
 
 void deleteBook() {
-    string tempISBN;
     int book_pos = -1;
 
-    cout << "\nWhich book do you want to delete from the catalogue?\n";
-    tempISBN = checkISBN();
-
-    for (int i = 0; i < position; i++) {
-        if (tempISBN == catalogue[i].ISBN) {
-            book_pos = i;
-            break;
-        }
-    }
+    book_pos = findBook();
 
     if (book_pos == -1) {
         cout << "\nBook not found...\n\n";

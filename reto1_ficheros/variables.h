@@ -1,5 +1,5 @@
-#define MAX_CH 50
-#define MAX_CAT 500
+#define MAX_CH 80
+#define MAX_CAT 1000
 using namespace std;
 
 typedef struct BOOK {
@@ -10,7 +10,6 @@ typedef struct BOOK {
     bool available = true;
 } BOOK;
 
-BOOK catalogue[MAX_CAT];
+fstream catalogue;
 int currentYear = 2024;
 int minimumYear = 1900;
-int position = 0;
