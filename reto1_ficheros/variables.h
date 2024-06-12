@@ -3,13 +3,16 @@
 using namespace std;
 
 typedef struct BOOK {
-    int year;
-    string ISBN;
-    string title;
-    string author;
-    bool available = true;
+    string ISBN = "";
+    string title = "";
+    string author = "";
+    int year = 0;
+    bool available = false;
 } BOOK;
 
 fstream catalogue;
-int currentYear = 2024;
-int minimumYear = 1900;
+fstream counter;
+BOOK book_array[MAX_CAT];
+int book_count = 0;
+int current_year = 2024;
+int minimum_year = 1900;

@@ -20,7 +20,6 @@ void deleteBook();
 int inputYear() {
     int year;
     while (true) {
-        cin >> ws;
         cout << "Enter year of publication: ";
         cin >> year;
         if ((year > currentYear) || (year < minimumYear)) {
@@ -37,7 +36,6 @@ int inputYear() {
 string inputISBN() {
     string ISBN;
     while (true) {
-        cin >> ws;
         cout << "Enter ISBN: ";
         cin >> ISBN;
         if ((ISBN.length() > 13) || (ISBN.length() < 10)) {
@@ -60,11 +58,11 @@ string inputTitle_Author(int option) {
         } else if (option == 1) {
             cout << "Enter author: ";
         }
-
+        
         cin >> ws;
         getline(cin, input);
         if (input.length() > MAX_CH) {
-            cout << "\nERROR: Invalid input...\n\n";
+            cout << "\nERROR: Invalid input...\n\n";   
             continue;
         } else {
             break;
@@ -79,7 +77,6 @@ bool inputAvailability() {
     bool available;
 
     while (true) {
-        cin >> ws;
         cout << "Is the book available? (y/n) ";
         cin >> input;
         
@@ -144,7 +141,7 @@ void show_last_x_years(int x) {
     system("cls || clear");
     int counter = 0;
     
-    cout << "\n\t\t\tRecent Books (last " << x << " years):\n";
+    cout << "\n\t\tRecent Books (last " << x << " years):\n";
     cout << "---------------------------------------------------------------\n";
 
     for (int i = 0; i < position; i++) {
